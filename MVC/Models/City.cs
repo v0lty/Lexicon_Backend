@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC.Models
 {
-    public class Person
+    public class City
     {
         [Key]
         [Display(Name = "Id")]
@@ -14,17 +14,18 @@ namespace MVC.Models
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
-        [ForeignKey("City")]
-        public virtual int CityId { get; set; }
+        [ForeignKey("Country")]
+        public virtual int CountryId { get; set; }
 
-        [Display(Name = "City")]
-        public virtual City City { get; set; }
+        [Display(Name = "Country")]
+        public virtual Country Country { get; set; }
 
-        [Display(Name = "Phone number")]
-        public virtual string PhoneNumber { get; set; }
+        [Display(Name = "People")]
+        public virtual ICollection<Person> People { get; set; }
 
-        public Person()
+        public City()
         {
+            People = new List<Person>();
         }
 
         public override string ToString()

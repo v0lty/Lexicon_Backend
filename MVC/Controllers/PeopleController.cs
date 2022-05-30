@@ -2,6 +2,8 @@
 using System.Net;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 using MVC.Models;
 using MVC.Data;
 
@@ -19,6 +21,7 @@ namespace MVC.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Cities = new SelectList(dbContext.Cities.ToList());
             return View(new PeopleViewModel() { People = dbContext.People.ToList() } );
         }
 
@@ -83,10 +86,16 @@ namespace MVC.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(CreatePersonViewModel viewModel)
+        public IActionResult Create(PeopleViewModel viewModel)
         {
             if (ModelState.IsValid) {
-                dbContext.People.Add(new Person() { Name = viewModel.Name, City = viewModel.City, PhoneNumber = viewModel.PhoneNumber });
+                var person = new Person() {
+                    Name = viewModel.CreateModel.Name,
+                    City = dbContext.Cities.Where(c => c.Name == viewModel.CreateModel.City).FirstOrDefault(),
+                    PhoneNumber = viewModel.CreateModel.PhoneNumber
+                };
+
+                dbContext.People.Add(person);
                 dbContext.SaveChanges();
 
                 return PartialView("_PeopleView", dbContext.People.ToList());

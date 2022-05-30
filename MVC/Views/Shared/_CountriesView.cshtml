@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MVC.Models.Country>
+
+<div class="row border-bottom py-2">
+    <div class="col-1 text-truncate ">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Id)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Name)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Cities)</strong>
+    </div>
+    <div class="col-3 text-truncate">
+        <strong></strong>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="col-1 text-truncate border-end border-bottom">
+            @Html.DisplayFor(modelItem => item.Id)
+        </div>
+        <div class="col text-truncate border-end border-bottom">
+            @Html.DisplayFor(modelItem => item.Name)
+        </div>
+        <div class="col border-end border-bottom">
+            @String.Join(", ", item.Cities)
+        </div>
+        <div class="col-3 text-truncate border-bottom">
+            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Countries" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+        </div>
+    </div>
+}
+
+<script>
+    function remove(id) {
+        $.get("Countries/Remove/" + id, function (data) {
+            $("#countriesPanel").html(data);
+        });
+        return false;
+    }
+</script>

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC.Models
 {
-    public class Person
+    public class Country
     {
         [Key]
         [Display(Name = "Id")]
@@ -14,17 +13,12 @@ namespace MVC.Models
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
-        [ForeignKey("City")]
-        public virtual int CityId { get; set; }
+        [Display(Name = "Citys")]
+        public virtual ICollection<City> Cities { get; set; }
 
-        [Display(Name = "City")]
-        public virtual City City { get; set; }
-
-        [Display(Name = "Phone number")]
-        public virtual string PhoneNumber { get; set; }
-
-        public Person()
+        public Country()
         {
+            Cities = new List<City>();
         }
 
         public override string ToString()

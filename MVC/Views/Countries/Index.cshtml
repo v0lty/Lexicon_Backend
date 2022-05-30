@@ -1,0 +1,62 @@
+﻿@model MVC.Models.CountriesViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid px-5 pe-5">
+    <div class="row">
+        <div class="col align-self-end">
+            <form class="p-0 m-0" asp-controller="Countries" asp-action="Search" method="post" id="searchForm">
+                <div class="row">
+                    <h3 class="pb-5">Countries Controller</h3>
+                    <div class="input-group">
+                        <input type="search" id="searchInput" name="search" class="form-control rounded-0" value="@Html.DisplayFor(c => c.Filter)" />
+                        <input type="submit" id="searchButton" value="Search" class="btn btn-primary rounded-0 me-1" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="countryCreatePanel" class="col-3 justify-content-end border-start border-bottom">
+            <form class="m-0 p-0" id="createCountryForm" method="post" asp-controller="Countries" asp-action="Create">
+                @Html.AntiForgeryToken()
+                <div class="row px-2 py-1">
+                    <input type="text" asp-for="CreateModel.Name" class="form-control custom-control-input form-control-sm rounded-0" placeholder="Name" id="nameInput" required>
+                    <span asp-validation-for="CreateModel.Name" class="text-danger"></span>
+                </div>
+                <input type="submit" class="btn btn-link p-0" value="Create" />
+            </form>
+        </div>
+    </div>
+    <div id="countriesPanel">
+        <partial name="_CountriesView" model=Model.Countries />
+    </div>
+</div>
+
+<script>
+    $('#searchForm').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function (result) {
+                $("#countriesPanel").html(result);
+            }
+        });
+    });
+
+    $('#createCountryForm').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function (result) {
+                $("#countriesPanel").html(result);
+                $("#nameInput").val('');
+                $("#countryInput").val('');
+            }
+        });
+    });
+</script>

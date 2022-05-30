@@ -1,4 +1,4 @@
-﻿@model MVC.Models.CreatePersonViewModel
+﻿@model MVC.Models.PeopleCreateViewModel
 
 <form class="m-0 p-0" id="createUserForm" method="post" asp-controller="People" asp-action="Create">
     @Html.AntiForgeryToken()
@@ -7,8 +7,7 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="row px-2 pb-1">
-        <input type="text" asp-for="City" class="form-control form-control-sm rounded-0" placeholder="City" required>
-        <span asp-validation-for="City" class="text-danger"></span>
+        <select asp-for="City" asp-items="ViewBag.Cities" class="form-select-sm rounded-0" id="cityInput" placeholder="City"></select>
     </div>
     <div class="row px-2 pb-1">
         <input type="text" asp-for="PhoneNumber" class="form-control form-control-sm rounded-0" placeholder="Phone Number" aria-describedby="username_required" required>
