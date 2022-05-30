@@ -11,17 +11,7 @@ namespace MVC.Models
 
         public string Filter { get; set; }
 
-        public IEnumerable<Person> People
-        {
-            get
-            {
-                return string.IsNullOrEmpty(Filter)
-                ? Repository.People
-                : Repository.People.Where(x => Filter.Split(',').Any(y =>
-                x.Name.Contains(y.Trim(), StringComparison.OrdinalIgnoreCase) ||
-                x.City.Contains(y.Trim(), StringComparison.OrdinalIgnoreCase))).ToList();
-            }
-        }
+        public IEnumerable<Person> People { get; set; }
 
         public PeopleViewModel()
         {

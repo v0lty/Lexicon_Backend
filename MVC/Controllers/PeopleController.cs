@@ -9,36 +9,44 @@ namespace MVC.Controllers
 {
     public class PeopleController : Controller
     {
+        private readonly ApplicationDbContext dbContext;
+
+        public PeopleController(ApplicationDbContext context)
+        {
+            dbContext = context;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            return View(new PeopleViewModel());
+            return View(new PeopleViewModel() { People = dbContext.People.ToList() } );
         }
 
         [HttpGet]
         public IActionResult List()
         {
-            return PartialView("_PeopleView", Repository.People);
+            return PartialView("_PeopleView", dbContext.People.ToList());
         }
 
         [HttpGet]
         public IActionResult Remove(int id)
         {
-            var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
-            if (person != null)
-            {
-                Repository.People.Remove(person);
+            var person = dbContext.People.Find(id);
+            if (person != null) {
+                dbContext.People.Remove(person);
+                dbContext.SaveChanges();
             }
-            return PartialView("_PeopleView", Repository.People);
+
+            return PartialView("_PeopleView", dbContext.People.ToList());
         }
 
         [HttpPost]
         public IActionResult RemoveWithConfirmation(int id)
         {
-            var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
-            if (person != null)
-            {
-                Repository.People.Remove(person);
+            var person = dbContext.People.Find(id);
+            if (person != null) {
+                dbContext.People.Remove(person);
+                dbContext.SaveChanges();
                 return Ok("Person was removed!");
             }
 
@@ -49,9 +57,8 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult Details(int id)
         {
-            var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
-            if (person != null)
-            {
+            var person = dbContext.People.Find(id);
+            if (person != null) {
                 return PartialView("_PersonView", person);
             }
 
@@ -62,23 +69,27 @@ namespace MVC.Controllers
         [HttpPost]
         public IActionResult Search(string search)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrEmpty(search))
             {
-                var model = new PeopleViewModel { Filter = search };
-                return PartialView("_PeopleView", model.People);
+                var list = dbContext.People.ToList().Where(
+                    s => search.Split(',').Any(
+                    t => s.Name.ToString().Contains(t.Trim(), StringComparison.OrdinalIgnoreCase)
+                      || s.City.ToString().Contains(t.Trim(), StringComparison.OrdinalIgnoreCase))).ToList();
+
+                return PartialView("_PeopleView", list);            
             }
 
-            return BadRequest(ModelState);
+            return PartialView("_PeopleView", dbContext.People.ToList());
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(CreatePersonViewModel viewModel)
         {
-            if (ModelState.IsValid)
-            {
-                var person = new Person(viewModel.Name, viewModel.City, viewModel.PhoneNumber);
-                Repository.People.Add(person);
-                return PartialView("_PeopleView", Repository.People);
+            if (ModelState.IsValid) {
+                dbContext.People.Add(new Person() { Name = viewModel.Name, City = viewModel.City, PhoneNumber = viewModel.PhoneNumber });
+                dbContext.SaveChanges();
+
+                return PartialView("_PeopleView", dbContext.People.ToList());
             }
 
             return BadRequest(ModelState);

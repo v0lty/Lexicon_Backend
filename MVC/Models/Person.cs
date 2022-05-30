@@ -1,32 +1,32 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC.Models
 {
     public class Person
     {
-        static int index = 0;
-
         [Key]
         [Display(Name = "Id")]
-        public int Id { get; set; }
+        public virtual int Id { get; set; }
 
         [Display(Name = "Name")]
-        public string Name { get; set; }
+        public virtual string Name { get; set; }
 
         [Display(Name = "City")]
-        public string City { get; set; }
+        public virtual string City { get; set; }
 
         [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
+        public virtual string PhoneNumber { get; set; }
 
-        public Person() : this(null, null, null) { }
-
-        public Person(string name, string city, string phoneNumber)
+        public Person()
         {
-            Id = index++;
-            Name = name;
-            City = city;
-            PhoneNumber = phoneNumber;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
