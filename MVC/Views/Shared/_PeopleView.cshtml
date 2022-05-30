@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MVC.Models.Person>
+
+<div class="row border-bottom py-2">
+    <div class="col-1 text-truncate ">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Id)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Name)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().City)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)</strong>
+    </div>
+    <div class="col-3 text-truncate">
+        <strong></strong>
+    </div>
+</div>
+
+@foreach (var item in Model)
+{
+    <partial name="_PersonView" model=item />
+}

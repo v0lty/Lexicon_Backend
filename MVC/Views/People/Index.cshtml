@@ -18,45 +18,22 @@
             <form class="m-0 p-0" id="createUserForm" method="post" asp-controller="People" asp-action="Create">
                 @Html.AntiForgeryToken()
                 <div class="row px-2 py-1">
-                    <input type="text" class="form-control form-control-sm rounded-0" asp-for="CreateViewModel.Name" placeholder="Name" required>
+                    <input type="text" asp-for="CreateViewModel.Name" class="form-control custom-control-input form-control-sm rounded-0" placeholder="Name" required>
                     <span asp-validation-for="CreateViewModel.Name" class="text-danger"></span>
                 </div>
                 <div class="row px-2 pb-1">
-                    <input type="text" class="form-control form-control-sm rounded-0" asp-for="CreateViewModel.City" placeholder="City" required>
+                    <input type="text" asp-for="CreateViewModel.City" class="form-control form-control-sm rounded-0" placeholder="City" required>
                     <span asp-validation-for="CreateViewModel.City" class="text-danger"></span>
                 </div>
                 <div class="row px-2 pb-1">
-                    <input type="text" class="form-control form-control-sm rounded-0" asp-for="CreateViewModel.PhoneNumber" placeholder="Phone Number" required>
+                    <input type="text" asp-for="CreateViewModel.PhoneNumber" class="form-control form-control-sm rounded-0" placeholder="Phone Number" aria-describedby="username_required" required>
                     <span asp-validation-for="CreateViewModel.PhoneNumber" class="text-danger"></span>
                 </div>
-                <div class="row px-2">
-                    <input type="submit" class="btn btn-secondary rounded-0" value="Create" />
-                </div>
+                <input type="submit" class="btn btn-link p-0" value="Create" />
             </form>
         </div>
     </div>
-    <table class="table table-striped table-borderless table-light table-hover">
-        <thead>
-            <tr>
-                <th scope="col">@Html.DisplayNameFor(model => model.People.FirstOrDefault().Id)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.People.FirstOrDefault().Name)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.People.FirstOrDefault().City)</th>
-                <th scope="col">@Html.DisplayNameFor(model => model.People.FirstOrDefault().PhoneNumber)</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.People)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.City)</td>
-                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                    <td>@Html.ActionLink("Remove", "Remove", "People", new { id = item.Id }, null)
-                    <td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div id="persons_panel">
+        <partial name="_PeopleView" model=Model.People />
+    </div>
 </div>

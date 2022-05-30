@@ -1,0 +1,19 @@
+﻿@model MVC.Models.Person
+
+<div class="row">
+    <div class="col-1 text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => Model.Id)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => Model.Name)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => Model.City)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => Model.PhoneNumber)
+    </div>
+    <div class="col-3 text-truncate border-bottom">
+        <a asp-controller="People" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+    </div>
+</div>
