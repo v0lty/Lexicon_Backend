@@ -14,6 +14,15 @@
         @Html.DisplayFor(modelItem => Model.PhoneNumber)
     </div>
     <div class="col-3 text-truncate border-bottom">
-        <a asp-controller="People" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+        <a onclick="event.preventDefault(); remove(@Model.Id)" asp-controller="People" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
     </div>
 </div>
+
+<script>
+    function remove(id) {
+        $.get("People/Remove/" + id, function (data) {
+            $("#peoplePanel").html(data);
+        });
+        return false;
+    }
+</script>

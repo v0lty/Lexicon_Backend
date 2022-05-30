@@ -1,0 +1,36 @@
+﻿@model MVC.Models.CreatePersonViewModel
+
+<form class="m-0 p-0" id="createUserForm" method="post" asp-controller="People" asp-action="Create">
+    @Html.AntiForgeryToken()
+    <div class="row px-2 py-1">
+        <input type="text" asp-for="Name" class="form-control custom-control-input form-control-sm rounded-0" placeholder="Name" required>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="row px-2 pb-1">
+        <input type="text" asp-for="City" class="form-control form-control-sm rounded-0" placeholder="City" required>
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+    <div class="row px-2 pb-1">
+        <input type="text" asp-for="PhoneNumber" class="form-control form-control-sm rounded-0" placeholder="Phone Number" aria-describedby="username_required" required>
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <input type="submit" class="btn btn-link p-0" value="Create" />
+</form>
+
+<script>
+    $('#createUserForm').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: $(this).serialize(),
+            success: function (result) {
+                $("#peoplePanel").html(result);
+                // clear input
+                $(".form-control").each(function () {
+                    $(this).val('');
+                });
+            }
+        });
+    });
+</script>

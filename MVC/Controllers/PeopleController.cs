@@ -9,46 +9,79 @@ namespace MVC.Controllers
 {
     public class PeopleController : Controller
     {
-        private static PeopleViewModel model = null;
-
         [HttpGet]
         public IActionResult Index()
         {
-            if (model == null)
-                model = new PeopleViewModel();
+            return View(new PeopleViewModel());
+        }
 
-            return View(model);
+        [HttpGet]
+        public IActionResult List()
+        {
+            return PartialView("_PeopleView", Repository.People);
         }
 
         [HttpGet]
         public IActionResult Remove(int id)
         {
             var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
-            if (person != null) {
+            if (person != null)
+            {
                 Repository.People.Remove(person);
             }
-
-            return RedirectToAction(nameof(Index));
+            return PartialView("_PeopleView", Repository.People);
         }
 
         [HttpPost]
-        public IActionResult Search(string filter)
+        public IActionResult RemoveWithConfirmation(int id)
         {
-            model.Filter = filter;
-            return RedirectToAction(nameof(Index));
+            var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
+            if (person != null)
+            {
+                Repository.People.Remove(person);
+                return Ok("Person was removed!");
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return BadRequest($"Person with id={id} does not exist.");
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(PeopleViewModel viewModel)
+        [HttpPost]
+        public IActionResult Details(int id)
+        {
+            var person = Repository.People.Where(x => x.Id == id).FirstOrDefault();
+            if (person != null)
+            {
+                return PartialView("_PersonView", person);
+            }
+
+            Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            return BadRequest($"Person with id={id} does not exist.");
+        }
+
+        [HttpPost]
+        public IActionResult Search(string search)
         {
             if (ModelState.IsValid)
             {
-                var person = new Person(viewModel.CreateViewModel.Name, viewModel.CreateViewModel.City, viewModel.CreateViewModel.PhoneNumber);
-                Repository.People.Add(person);
-                return RedirectToAction(nameof(Index));
+                var model = new PeopleViewModel { Filter = search };
+                return PartialView("_PeopleView", model.People);
             }
 
-            return View(viewModel);
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Create(CreatePersonViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var person = new Person(viewModel.Name, viewModel.City, viewModel.PhoneNumber);
+                Repository.People.Add(person);
+                return PartialView("_PeopleView", Repository.People);
+            }
+
+            return BadRequest(ModelState);
         }
     }
 }
