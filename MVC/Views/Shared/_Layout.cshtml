@@ -1,0 +1,45 @@
+﻿<!DOCKTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        <link rel="stylesheet" href="~/lib/bootstrap-5.1.3-dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/style.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    </head>
+    <body>
+        <div class="d-flex flex-column overflow-hidden min-vh-100 vh-100">
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-light shadow">
+                    <a class="navbar-brand fw-bolder" style="margin-left: 15px;" asp-controller="Home" asp-action="Index">LOGO</a>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Projects">Projects</a>
+                        </li>         
+                    </ul>
+                </nav>
+            </header>
+            <main role="main" class="flex-grow-1 overflow-auto">
+                <div class="container-fluid pt-4">
+                    @RenderBody()
+                </div>
+            </main>
+            <footer class="bg-light p-4 text-dark border-top">
+                <div>
+                    &copy; @DateTime.Now.ToShortDateString() ~ Kim Holmer
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

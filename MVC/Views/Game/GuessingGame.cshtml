@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "GuessingGame";
+}
+
+<h3>Guessing Game</h3>
+
+<form class="w-25" asp-controller="Game" asp-action="GuessingGame" method="post">
+    <div class="row p-2">
+        <input type="number" name="number" placeholder="Enter a number" style="min-width: 200px;" />
+    </div>
+    <div class="row p-2">
+        <input class="btn btn-primary" type="submit" value="Send" style="min-width: 200px;" />
+    </div>
+</form>
+
+<p class="">
+    @if(ViewBag.Message != null)  {
+        <span class="text-secondary">@ViewBag.Message</span><br />
+    }
+    @if(ViewBag.NumGuesses != null) {
+        <span class="text-info">Number of guesses: @ViewBag.NumGuesses</span>
+    }
+</p>

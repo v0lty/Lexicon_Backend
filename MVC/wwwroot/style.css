@@ -1,0 +1,30 @@
+﻿.timeline {
+    border-left: 1px solid hsl(0, 0%, 90%);
+    position: relative;
+    list-style: none;
+}
+
+.timeline .timeline-item {
+position: relative;
+}
+
+.timeline .timeline-item:after {
+    position: absolute;
+    display: block;
+    top: 0;
+}
+
+.timeline .timeline-item:after {
+    background-color: hsl(0, 0%, 90%);
+    left: -42px;
+    top: 7px;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    content: "";
+}
+
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus {
+    color: steelblue !important;
+    font-weight: bold;
+}

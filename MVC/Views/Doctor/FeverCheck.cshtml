@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Fever Check";
+}
+
+<h3 class="">Fever Check</h3>
+
+<form class="w-25" asp-controller="Doctor" asp-action="FeverCheck" method="post">    
+    <div class="col py-2">
+        <input type="number" step=".01" name="temperature" placeholder="Temperature" style="min-width: 200px;"/>
+    </div>  
+    <div class="col py-2">
+        <div class="btn-group" role="group">
+            <input type="radio" class="btn-check" name="measurement" id="temp_celsius" value="celsius" autocomplete="off" checked >
+            <label class="btn btn-outline-primary" for="temp_celsius" style="min-width: 200px;">Celsius</label>
+            <input type="radio" class="btn-check" name="measurement" id="temp_fahrenheit" value="fahrenheit" autocomplete="off">
+            <label class="btn btn-outline-primary" for="temp_fahrenheit" style="min-width: 200px;">Fahrenheit</label>
+        </div>
+    </div>
+    <div class="col py-2">
+        <input class="btn btn-primary" type="submit" value="Send" style="min-width: 200px;" />
+    </div>    
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <p class="">@ViewBag.Message</p>
+}
+
