@@ -55,14 +55,16 @@ namespace MVC.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(CitiesViewModel viewModel)
+        public IActionResult Create(CityCreateViewModel createModel)
         {
             if (ModelState.IsValid) {
-                var city = new City() { 
-                    Name = viewModel.CreateModel.Name, 
-                    Country = dbContext.Countries.Where(c => c.Name == viewModel.CreateModel.Country).FirstOrDefault() 
-                };
-                dbContext.Cities.Add(city);
+
+                if (dbContext.Cities.Any(c => c.Name == createModel.Name)) {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return BadRequest($"A city with name {createModel.Name} does already exist.");
+                }
+
+                dbContext.Cities.Add(new City() { Name = createModel.Name, Country = dbContext.Countries.Where(c => c.Name == createModel.Country).FirstOrDefault() });
                 dbContext.SaveChanges();
 
                 return PartialView("_CitiesView", dbContext.Cities.ToList());

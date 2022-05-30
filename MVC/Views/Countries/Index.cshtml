@@ -56,6 +56,9 @@
                 $("#countriesPanel").html(result);
                 $("#nameInput").val('');
                 $("#countryInput").val('');
+            },
+            error: function (result) {
+                alert(result.responseText);
             }
         });
     });

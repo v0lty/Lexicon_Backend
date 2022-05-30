@@ -86,13 +86,13 @@ namespace MVC.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(PeopleViewModel viewModel)
+        public IActionResult Create(PeopleCreateViewModel createModel)
         {
             if (ModelState.IsValid) {
                 var person = new Person() {
-                    Name = viewModel.CreateModel.Name,
-                    City = dbContext.Cities.Where(c => c.Name == viewModel.CreateModel.City).FirstOrDefault(),
-                    PhoneNumber = viewModel.CreateModel.PhoneNumber
+                    Name = createModel.Name,
+                    City = dbContext.Cities.Where(c => c.Name == createModel.City).FirstOrDefault(),
+                    PhoneNumber = createModel.PhoneNumber
                 };
 
                 dbContext.People.Add(person);
