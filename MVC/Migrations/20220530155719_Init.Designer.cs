@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220530130424_Init")]
+    [Migration("20220530155719_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,6 +137,58 @@ namespace MVC.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MVC.Models.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Swedish"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Finnish"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Danish"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "German"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Frensh"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Spanish"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "English"
+                        });
+                });
+
             modelBuilder.Entity("MVC.Models.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -225,6 +277,88 @@ namespace MVC.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MVC.Models.PersonLanguage", b =>
+                {
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PersonId", "LanguageId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("PersonLanguages");
+
+                    b.HasData(
+                        new
+                        {
+                            PersonId = 1,
+                            LanguageId = 1
+                        },
+                        new
+                        {
+                            PersonId = 2,
+                            LanguageId = 1
+                        },
+                        new
+                        {
+                            PersonId = 3,
+                            LanguageId = 1
+                        },
+                        new
+                        {
+                            PersonId = 4,
+                            LanguageId = 2
+                        },
+                        new
+                        {
+                            PersonId = 5,
+                            LanguageId = 3
+                        },
+                        new
+                        {
+                            PersonId = 6,
+                            LanguageId = 4
+                        },
+                        new
+                        {
+                            PersonId = 7,
+                            LanguageId = 5
+                        },
+                        new
+                        {
+                            PersonId = 8,
+                            LanguageId = 6
+                        },
+                        new
+                        {
+                            PersonId = 9,
+                            LanguageId = 1
+                        },
+                        new
+                        {
+                            PersonId = 1,
+                            LanguageId = 7
+                        },
+                        new
+                        {
+                            PersonId = 2,
+                            LanguageId = 7
+                        },
+                        new
+                        {
+                            PersonId = 3,
+                            LanguageId = 7
+                        },
+                        new
+                        {
+                            PersonId = 6,
+                            LanguageId = 3
+                        });
+                });
+
             modelBuilder.Entity("MVC.Models.City", b =>
                 {
                     b.HasOne("MVC.Models.Country", "Country")
@@ -239,6 +373,21 @@ namespace MVC.Migrations
                     b.HasOne("MVC.Models.City", "City")
                         .WithMany("People")
                         .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MVC.Models.PersonLanguage", b =>
+                {
+                    b.HasOne("MVC.Models.Language", "Language")
+                        .WithMany("PersonLanguages")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MVC.Models.Person", "Person")
+                        .WithMany("PersonLanguages")
+                        .HasForeignKey("PersonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

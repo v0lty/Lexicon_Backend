@@ -28,7 +28,9 @@
                     <span asp-validation-for="CreateModel.Name" class="text-danger"></span>
                 </div>
                 <div class="row px-2 pb-1">
-                    <select asp-for="CreateModel.City" asp-items="ViewBag.Cities" class="form-select-sm rounded-0" id="cityInput" placeholder="City"></select>
+                    <select asp-for="CreateModel.City" asp-items="ViewBag.Cities" class="form-select-sm rounded-0" id="cityInput" placeholder="City">
+                        <option value="" selected disabled>Select City</option>
+                    </select>
                 </div>
                 <div class="row px-2 pb-1">
                     <input type="text" asp-for="CreateModel.PhoneNumber" class="form-control form-control-sm rounded-0" placeholder="Phone Number" aria-describedby="username_required" id="phoneInput" required>

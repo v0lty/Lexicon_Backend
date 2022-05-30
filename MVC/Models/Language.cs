@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC.Models
 {
-    public class Person
+    public class Language
     {
         [Key]
         [Display(Name = "Id")]
@@ -14,22 +13,14 @@ namespace MVC.Models
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
-        [ForeignKey("City")]
-        public virtual int CityId { get; set; }
-
-        [Display(Name = "City")]
-        public virtual City City { get; set; }
-
-        [Display(Name = "Phone number")]
-        public virtual string PhoneNumber { get; set; }
-
-        [Display(Name = "Languages")]
+        [Display(Name = "Persons")]
         public virtual ICollection<PersonLanguage> PersonLanguages { get; set; }
 
-        public Person()
+        public Language()
         {
             PersonLanguages = new List<PersonLanguage>();
         }
+
         public override string ToString()
         {
             return string.Format($"{Name} (#{Id:D4})");

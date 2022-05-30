@@ -52,10 +52,16 @@ namespace MVC.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
-        public IActionResult Create(CountriesViewModel viewModel)
+        public IActionResult Create(CountryCreateViewModel createModel)
         {
             if (ModelState.IsValid) {
-                dbContext.Countries.Add(new Country() { Name = viewModel.CreateModel.Name });
+
+                if (dbContext.Countries.Any(c => c.Name == createModel.Name)) {
+                    Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    return BadRequest($"A contry with name {createModel.Name} does already exist.");
+                }
+
+                dbContext.Countries.Add(new Country() { Name = createModel.Name });
                 dbContext.SaveChanges();
 
                 return PartialView("_CountriesView", dbContext.Countries.ToList());

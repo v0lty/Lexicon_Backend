@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MVC.Models.City>
+﻿@model IEnumerable<MVC.Models.Language>
 
 <div class="row border-bottom py-2">
     <div class="col-1 text-truncate ">
@@ -8,10 +8,7 @@
         <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Name)</strong>
     </div>
     <div class="col text-truncate">
-        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().Country)</strong>
-    </div>
-    <div class="col text-truncate">
-        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().People)</strong>
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().PersonLanguages)</strong>
     </div>
     <div class="col-3 text-truncate">
         <strong></strong>
@@ -27,22 +24,19 @@
         <div class="col text-truncate border-end border-bottom">
             @Html.DisplayFor(modelItem => item.Name)
         </div>
-        <div class="col text-truncate border-end border-bottom">
-            @Html.DisplayFor(modelItem => item.Country.Name)
-        </div>
         <div class="col border-end border-bottom">
-            @String.Join(", ", item.People.Select(p => p.Name))
+            @String.Join(", ", item.PersonLanguages.Select(x => x.Person.Name))
         </div>
         <div class="col-3 text-truncate border-bottom">
-            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Cities" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Languages" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
         </div>
     </div>
 }
 
 <script>
     function remove(id) {
-        $.get("Cities/Remove/" + id, function (data) {
-            $("#citiesPanel").html(data);
+        $.get("Languages/Remove/" + id, function (data) {
+            $("#languagesPanel").html(data);
         });
         return false;
     }

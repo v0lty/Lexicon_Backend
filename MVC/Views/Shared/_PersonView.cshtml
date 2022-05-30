@@ -13,6 +13,9 @@
     <div class="col text-truncate border-end border-bottom">
         @Html.DisplayFor(modelItem => Model.PhoneNumber)
     </div>
+    <div class="col text-truncate border-end border-bottom">     
+        @String.Join(", ", Model.PersonLanguages.Select(x => x.Language.Name))
+    </div>
     <div class="col-3 text-truncate border-bottom">
         <a onclick="event.preventDefault(); remove(@Model.Id)" asp-controller="People" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
     </div>
