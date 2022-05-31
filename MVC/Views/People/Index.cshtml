@@ -98,7 +98,7 @@
 
     function onDeleteClick() {
         $.ajax({
-            url: 'People/Delete',
+            url: 'People/RemoveWithConfirmation',
             type: 'POST',
             data: { id: $(searchInput).val() },
             success: function (result) {
