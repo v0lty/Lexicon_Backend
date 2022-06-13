@@ -11,6 +11,7 @@ namespace MVC.Models
         public virtual int Id { get; set; }
 
         [Display(Name = "Name")]
+        [StringLength(50, MinimumLength = 3)]
         public virtual string Name { get; set; }
 
         [Display(Name = "Citys")]

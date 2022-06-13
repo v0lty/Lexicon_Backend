@@ -28,7 +28,7 @@
             @String.Join(", ", item.PersonLanguages.Select(x => x.Person.Name))
         </div>
         <div class="col-3 text-truncate border-bottom">
-            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Languages" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Languages" asp-action="Remove" asp-route-id="@item.Id">Delete</a>
         </div>
     </div>
 }

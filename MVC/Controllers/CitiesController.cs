@@ -1,14 +1,15 @@
-﻿using System;
-using System.Net;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-using MVC.Models;
 using MVC.Data;
+using MVC.Models;
+using System;
+using System.Linq;
+using System.Net;
 
 namespace MVC.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CitiesController : Controller
     {
         private readonly ApplicationDbContext dbContext;

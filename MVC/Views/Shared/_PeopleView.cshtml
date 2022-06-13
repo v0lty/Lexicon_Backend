@@ -11,10 +11,13 @@
         <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().City)</strong>
     </div>
     <div class="col text-truncate">
-        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)</strong>
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().City.Country)</strong>
     </div>
     <div class="col text-truncate">
         <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().PersonLanguages)</strong>
+    </div>
+    <div class="col text-truncate">
+        <strong>@Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)</strong>
     </div>
     <div class="col-3 text-truncate">
         <strong></strong>
@@ -23,5 +26,94 @@
 
 @foreach (var item in Model)
 {
-    <partial name="_PersonView" model=item />
+<div class="row">
+    <div class="col-1 text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => item.Id)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => item.Name)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => item.City.Name)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => item.City.Country.Name)
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @String.Join(", ", item.PersonLanguages.Select(x => x.Language.Name))
+    </div>
+    <div class="col text-truncate border-end border-bottom">
+        @Html.DisplayFor(modelItem => item.PhoneNumber)
+    </div>
+    <div class="col-3 text-truncate border-bottom">
+        <a class="btn btn-link p-0" onclick="editPerson(@item.Id)">Edit</a>
+        @if (User.IsInRole("Admin")) {
+        <a class="btn btn-link p-0" onclick="removePerson(@item.Id)">Delete</a>
+        }
+    </div>
+</div>
 }
+
+<!--EDIT PERSON MODAL-->
+<div class="modal fade" id="editPersonModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Person</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editPersonForm" method="post" asp-controller="People" asp-action="EditPerson">
+                    <input type="submit" id="submitEditForm" class="d-none" />
+                    <div id="editPersonPanel" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <label for="submitEditForm" class="btn btn-primary">Submit</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    $('#editPersonForm').on('submit', function (event) {
+        event.preventDefault();
+        $.ajax({
+            url: $(this).attr('action'), type: $(this).attr('method'), data: $(this).serialize(),
+            success: function (result) {
+                $('#editPersonModal').modal('toggle');
+                $("#peoplePanel").html(result);
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+    });
+
+    function editPerson(id) {
+        $.ajax({
+            url: "People/EditPerson/" + id, type: 'GET', data: null,
+            success: function (result) {
+                $('#editPersonModal').modal('toggle');
+                $("#editPersonPanel").html(result);
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+    }
+
+    function removePerson(id) {
+        $.ajax({
+            url: "People/RemovePerson/" + id, type: 'POST', data: null,
+            success: function (result) {
+                $("#peoplePanel").html(result);
+            },
+            error: function (result) {
+                alert(result.responseText);
+            }
+        });
+    }
+</script>

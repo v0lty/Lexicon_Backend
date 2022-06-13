@@ -1,15 +1,16 @@
-﻿using System;
-using System.Net;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text.RegularExpressions;
-
-using MVC.Models;
 using MVC.Data;
+using MVC.Models;
+using System;
+using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace MVC.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class LanguagesController : Controller
     {
         private readonly ApplicationDbContext dbContext;

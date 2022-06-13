@@ -1,31 +1,18 @@
-﻿@model MVC.Models.Person
+﻿@model MVC.Models.PeopleCreateViewModel
 
-<div class="row">
-    <div class="col-1 text-truncate border-end border-bottom">
-        @Html.DisplayFor(modelItem => Model.Id)
-    </div>
-    <div class="col text-truncate border-end border-bottom">
-        @Html.DisplayFor(modelItem => Model.Name)
-    </div>
-    <div class="col text-truncate border-end border-bottom">
-        @Html.DisplayFor(modelItem => Model.City.Name)
-    </div>
-    <div class="col text-truncate border-end border-bottom">
-        @Html.DisplayFor(modelItem => Model.PhoneNumber)
-    </div>
-    <div class="col text-truncate border-end border-bottom">     
-        @String.Join(", ", Model.PersonLanguages.Select(x => x.Language.Name))
-    </div>
-    <div class="col-3 text-truncate border-bottom">
-        <a onclick="event.preventDefault(); remove(@Model.Id)" asp-controller="People" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
-    </div>
+<!--hidden field used for POST/Edit-->
+<input type="text" asp-for="Id" class="d-none" placeholder="Name" id="idInput">
+
+<div class="row px-2 py-1">
+    <input type="text" asp-for="Name" class="form-control custom-control-input form-control-sm rounded-0" placeholder="Name" id="nameInput" required>
+    <span asp-validation-for="Name" class="text-danger"></span>
 </div>
-
-<script>
-    function remove(id) {
-        $.get("People/Remove/" + id, function (data) {
-            $("#peoplePanel").html(data);
-        });
-        return false;
-    }
-</script>
+<div class="row px-2 pb-1">
+    <select asp-for="City" asp-items="ViewBag.Cities" class="form-select-sm rounded-0" id="cityInput" placeholder="City">
+        <option value="" selected disabled>Select City</option>
+    </select>
+</div>
+<div class="row px-2 pb-1">
+    <input type="text" asp-for="PhoneNumber" class="form-control form-control-sm rounded-0" placeholder="Phone Number" aria-describedby="username_required" id="phoneInput" required>
+    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+</div>

@@ -30,11 +30,11 @@
         <div class="col text-truncate border-end border-bottom">
             @Html.DisplayFor(modelItem => item.Country.Name)
         </div>
-        <div class="col border-end border-bottom">
+        <div class="col text-truncate border-end border-bottom">
             @String.Join(", ", item.People.Select(p => p.Name))
         </div>
         <div class="col-3 text-truncate border-bottom">
-            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Cities" asp-action="Remove" asp-route-id="@item.Id">Remove</a>
+            <a onclick="event.preventDefault(); remove(@item.Id)" asp-controller="Cities" asp-action="Remove" asp-route-id="@item.Id">Delete</a>
         </div>
     </div>
 }
