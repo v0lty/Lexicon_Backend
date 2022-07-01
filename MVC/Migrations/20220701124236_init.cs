@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MVC.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,8 +40,8 @@ namespace MVC.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
                     Birthdate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -197,8 +197,7 @@ namespace MVC.Migrations
                         name: "FK_Cities_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -251,14 +250,14 @@ namespace MVC.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ca4625c7-ada6-4aa6-ba1e-f1f48fc7cb3c", "9ab70d51-1a06-4661-9353-578435c753da", "Admin", "ADMIN" },
-                    { "a55b1753-0b7b-48cc-8cd1-25b3c09cfcc8", "6d7b1537-a17b-4de6-885c-522b2813e793", "User", "USER" }
+                    { "dea74542-31a5-472b-bc95-405996b0e4dc", "926c05bc-edaf-4f31-a790-e50f64a088c8", "Admin", "ADMIN" },
+                    { "b74732a9-f1bd-4aee-a767-9835250be504", "b03488c9-5653-4f09-bc66-adce758683a4", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "Birthdate", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "c7fef5ad-d326-4b65-bf8a-e41ad0c767bc", 0, new DateTime(1983, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "9302afa1-426f-4212-9e80-87b3309ed002", "admin@fakemail.net", false, "John", "Doe", false, null, "ADMIN@FAKEMAIL.NET", "ADMIN@FAKEMAIL.NET", "AQAAAAEAACcQAAAAEI8uW7HMrIuVOJS+zpfCYpQJx+9RWr6zY3fCxyH9lQ0aHExvlD4UZElK0H1Ax4wl9g==", null, false, "f999b101-46f7-4a05-92ed-f9bec7929ebe", false, "admin@fakemail.net" });
+                values: new object[] { "485ab02e-a59e-4586-95b5-07175b086257", 0, new DateTime(1983, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "30513dc8-b42c-4832-8861-82fbd0644fcf", "admin@fakemail.net", false, "John", "Doe", false, null, "ADMIN@FAKEMAIL.NET", "ADMIN@FAKEMAIL.NET", "AQAAAAEAACcQAAAAEJ1LRiqb/LlFwInAbTkon8UaC/PlVbhLTqnLwbowhuxvGC3TA2UlU59TaursZV8/OA==", null, false, "01f4f513-7ec5-4ab3-a4d8-3be141902114", false, "admin@fakemail.net" });
 
             migrationBuilder.InsertData(
                 table: "Countries",
@@ -290,7 +289,7 @@ namespace MVC.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "UserId", "RoleId" },
-                values: new object[] { "c7fef5ad-d326-4b65-bf8a-e41ad0c767bc", "ca4625c7-ada6-4aa6-ba1e-f1f48fc7cb3c" });
+                values: new object[] { "485ab02e-a59e-4586-95b5-07175b086257", "dea74542-31a5-472b-bc95-405996b0e4dc" });
 
             migrationBuilder.InsertData(
                 table: "Cities",

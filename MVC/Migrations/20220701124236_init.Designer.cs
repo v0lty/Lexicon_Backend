@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220610094707_Init")]
-    partial class Init
+    [Migration("20220701124236_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,15 +50,15 @@ namespace MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ca4625c7-ada6-4aa6-ba1e-f1f48fc7cb3c",
-                            ConcurrencyStamp = "9ab70d51-1a06-4661-9353-578435c753da",
+                            Id = "dea74542-31a5-472b-bc95-405996b0e4dc",
+                            ConcurrencyStamp = "926c05bc-edaf-4f31-a790-e50f64a088c8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a55b1753-0b7b-48cc-8cd1-25b3c09cfcc8",
-                            ConcurrencyStamp = "6d7b1537-a17b-4de6-885c-522b2813e793",
+                            Id = "b74732a9-f1bd-4aee-a767-9835250be504",
+                            ConcurrencyStamp = "b03488c9-5653-4f09-bc66-adce758683a4",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -87,10 +87,14 @@ namespace MVC.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -140,10 +144,10 @@ namespace MVC.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "c7fef5ad-d326-4b65-bf8a-e41ad0c767bc",
+                            Id = "485ab02e-a59e-4586-95b5-07175b086257",
                             AccessFailedCount = 0,
                             Birthdate = new DateTime(1983, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ConcurrencyStamp = "9302afa1-426f-4212-9e80-87b3309ed002",
+                            ConcurrencyStamp = "30513dc8-b42c-4832-8861-82fbd0644fcf",
                             Email = "admin@fakemail.net",
                             EmailConfirmed = false,
                             FirstName = "John",
@@ -151,9 +155,9 @@ namespace MVC.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@FAKEMAIL.NET",
                             NormalizedUserName = "ADMIN@FAKEMAIL.NET",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI8uW7HMrIuVOJS+zpfCYpQJx+9RWr6zY3fCxyH9lQ0aHExvlD4UZElK0H1Ax4wl9g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ1LRiqb/LlFwInAbTkon8UaC/PlVbhLTqnLwbowhuxvGC3TA2UlU59TaursZV8/OA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f999b101-46f7-4a05-92ed-f9bec7929ebe",
+                            SecurityStamp = "01f4f513-7ec5-4ab3-a4d8-3be141902114",
                             TwoFactorEnabled = false,
                             UserName = "admin@fakemail.net"
                         });
@@ -176,8 +180,8 @@ namespace MVC.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "c7fef5ad-d326-4b65-bf8a-e41ad0c767bc",
-                            RoleId = "ca4625c7-ada6-4aa6-ba1e-f1f48fc7cb3c"
+                            UserId = "485ab02e-a59e-4586-95b5-07175b086257",
+                            RoleId = "dea74542-31a5-472b-bc95-405996b0e4dc"
                         });
                 });
 
@@ -633,7 +637,7 @@ namespace MVC.Migrations
                     b.HasOne("MVC.Models.Country", "Country")
                         .WithMany("Cities")
                         .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

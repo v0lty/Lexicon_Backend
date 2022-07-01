@@ -25,10 +25,10 @@ namespace MVC.Data
         {
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseLazyLoadingProxies();
+        //}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace MVC.Data
                 .HasOne(p => p.Country)
                 .WithMany(c => c.Cities)
                 .HasForeignKey(p => p.CountryId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<PersonLanguage>(personLanguage =>
             {
