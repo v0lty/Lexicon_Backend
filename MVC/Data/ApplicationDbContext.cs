@@ -30,7 +30,7 @@ namespace MVC.Data
             optionsBuilder.UseLazyLoadingProxies();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 

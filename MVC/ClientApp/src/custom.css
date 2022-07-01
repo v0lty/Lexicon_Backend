@@ -1,0 +1,12 @@
+.table thead > tr > th {
+    border: none;
+    text-transform: uppercase;
+}
+
+.table tbody > tr {
+    border-color: #808080;
+}
+
+.tiny-th{
+    width: 175px;
+}

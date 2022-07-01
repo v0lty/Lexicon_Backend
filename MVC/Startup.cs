@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using MVC.Data;
 using MVC.Models;
 using System;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace MVC
 {
@@ -22,13 +23,16 @@ namespace MVC
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddDbContext<Data.ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -37,6 +41,15 @@ namespace MVC
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+            services.AddControllersWithViews();
+
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,7 +59,9 @@ namespace MVC
             }
 
             app.UseSession();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
@@ -55,19 +70,17 @@ namespace MVC
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}"
-                    );
-                endpoints.MapControllerRoute(
-                    name: "feverCheck",
-                    pattern: "FeverCheck",
-                    defaults: new { controller = "Doctor", action = "FeverCheck" }
-                    );
-                endpoints.MapControllerRoute(
-                    name: "guessingGame",
-                    pattern: "GuessingGame",
-                    defaults: new { controller = "Game", action = "GuessingGame" }
-                    );
-                endpoints.MapRazorPages();
+                    pattern: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
