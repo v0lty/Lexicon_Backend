@@ -10,3 +10,7 @@
 .tiny-th{
     width: 175px;
 }
+
+.btn-light {
+    background-color: white !important;
+}
