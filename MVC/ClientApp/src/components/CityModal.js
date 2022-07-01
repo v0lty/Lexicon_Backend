@@ -33,7 +33,7 @@ export function CityModal(props) {
                     <Form.Group className="mb-2" controlId="formCountry">
                         <Form.Label>Country</Form.Label>
                         <Form.Select className="p-2 border border-secondary rounded w-100"
-                            defaultValue={city != null ? city.CountryId : "Select a Country"} required>
+                            defaultValue={city?.CountryId} required>
                             {props.countries?.map((country, index) =>
                                 <option key={country.Id} value={country.Id}>{country.Name}</option>
                             )}
